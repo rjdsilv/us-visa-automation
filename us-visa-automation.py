@@ -28,6 +28,7 @@ def setup_logging():
     return logger
 
 
+# Sends an email when an error happens in the script
 def do_send_error_email(error: Exception, logger):
     sent_from = constants.GMAIL_USERNAME
     sent_to = ["<list_of_emails_goes_here>"]
@@ -41,6 +42,7 @@ def do_send_error_email(error: Exception, logger):
     send_email(sent_from, sent_to, message, logger)
 
 
+# Sends an email when there is an opening on the schedule
 def do_send_email(logger):
     sent_from = constants.GMAIL_USERNAME
     sent_to = ["<list_of_emails_goes_here>"]
@@ -53,7 +55,7 @@ def do_send_email(logger):
     send_email(sent_from, sent_to, message, logger)
 
 
-
+# Sends an email when process finished running successfully but with no slots available
 def do_send_process_ran_email(logger):
     sent_from = constants.GMAIL_USERNAME
     sent_to = ["<list_of_emails_goes_here>"]
@@ -137,6 +139,7 @@ def do_check_schedule(browser: Chrome, logger):
     appointment_location_select.select_by_visible_text("Halifax")
     sleep(2) # Wait for the text to appear
 
+    # Checks if the error message is there. If it's not, it means that there are spots available.
     appointment_location_error = browser.find_element(By.ID, "consulate_date_time_not_available")
     if (appointment_location_error.is_displayed()):
         logger.info("Appointment not available :(")
